@@ -1,5 +1,5 @@
 
-Akari game developed using Flutter.
-Team #4
-FISE 3A
+Akari game developed using Flutter. <br>
+Team #4 <br>
+FISE 3A <br>
 Mobile Dev.
