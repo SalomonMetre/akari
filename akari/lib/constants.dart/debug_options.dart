@@ -1,1 +1,0 @@
-bool debugShowCheckedModeBanner = false;
