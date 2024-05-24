@@ -39,6 +39,8 @@ dependencies:
   go_router: ^14.1.2
   getwidget: ^4.0.0
   google_fonts: ^6.2.1
+  typing_animation: ^0.0.1
+  animated_text_kit: ^4.2.2
 
 dev_dependencies:
   flutter_test:

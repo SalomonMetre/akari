@@ -14,3 +14,9 @@ class TextConstants {
   static const String funFactComplexity =
       """Determining whether a given Light Up puzzle is solvable is NP-complete. This is proved by a polynomial-time reduction from Circuit-SAT, which is known to be NP-complete, to Light Up puzzles.""";
 }
+
+class HomePageTxtConstants {
+  static const String homeTabLabel = "Home";
+  static const String settingsTabLabel = "Settings";
+  static const String quitTabLabel = "Quit";
+}

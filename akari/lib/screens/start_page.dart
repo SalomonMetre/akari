@@ -8,8 +8,8 @@ import 'package:getwidget/colors/gf_color.dart';
 import 'package:getwidget/components/toast/gf_toast.dart';
 import 'package:getwidget/position/gf_toast_position.dart';
 
-/// Initial page
-/// contains game instructions, leads to HomePage
+/// Start page :
+/// It contains the main animation that leads to the IntroPage
 class StartPage extends StatefulWidget {
   const StartPage({super.key});
 

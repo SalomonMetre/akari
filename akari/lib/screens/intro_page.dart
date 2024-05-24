@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Intro page :
-/// It contains the main animation that leads to the StartPage
+/// Initial page :
+/// contains game instructions, leads to HomePage
 class IntroPage extends StatefulWidget {
   const IntroPage({super.key});
 
