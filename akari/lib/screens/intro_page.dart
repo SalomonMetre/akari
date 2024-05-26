@@ -48,14 +48,14 @@ class _IntroPageState extends State<IntroPage> {
             currentIndex: initialPage,
             onForwardButtonTap: () {
               _pageController.nextPage(
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInCirc,
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.linear,
               );
             },
             onBackButtonTap: () {
               _pageController.previousPage(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeInOut);
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.linear);
             },
             onDoneTap: () {
               goTo(context, destination: RouteNames.homePage, push: true);

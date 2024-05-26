@@ -1,14 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:akari/constants/app_colors.dart';
 import 'package:akari/constants/asset_names.dart';
-import 'package:akari/constants/fonts.dart';
 import 'package:akari/constants/route_names.dart';
 import 'package:akari/constants/texts.dart';
 import 'package:akari/functions/routing.dart';
+import 'package:akari/functions/utilities.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,7 +38,11 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   AnimatedTextKit(
                     animatedTexts: [
-                      WavyAnimatedText('PLAY NOW', textStyle: GoogleFonts.nosifer(fontSize: 25, color: Colors.teal),),
+                      WavyAnimatedText(
+                        'PLAY NOW',
+                        textStyle: GoogleFonts.nosifer(
+                            fontSize: 25, color: Colors.teal),
+                      ),
                     ],
                     isRepeatingAnimation: true,
                     repeatForever: true,
@@ -44,7 +50,9 @@ class _HomePageState extends State<HomePage> {
                       print("Tap Event");
                     },
                   ),
-                  const Divider(color: Colors.teal,),
+                  const Divider(
+                    color: Colors.teal,
+                  ),
                 ],
               ),
             ),
@@ -63,13 +71,13 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             label: HomePageTxtConstants.quitTabLabel,
-            icon: Icon(Icons.exit_to_app),
+            icon: Icon(Icons.arrow_back),
           ),
         ],
         currentIndex: 0,
         backgroundColor: Colors.white,
         selectedItemColor: Colors.teal,
-        onTap: (index) {
+        onTap: (index) async {
           switch (index) {
             case 0:
               goTo(context, destination: RouteNames.homePage);
@@ -78,7 +86,24 @@ class _HomePageState extends State<HomePage> {
               goTo(context, destination: RouteNames.homePage);
               break;
             case 2:
-              goTo(context, destination: RouteNames.homePage);
+              bool? result = await showYesNoDialog(context,
+                  questionText: "Do you want to quit the game ?",
+                  confirmText: "Confirm");
+              if (result != null) {
+                if (result) {
+                  SystemNavigator.pop(animated: true);
+                }else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      "Keep playing !",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                );
+              }
+              }
+              break;
           }
         },
       ),

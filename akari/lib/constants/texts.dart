@@ -18,5 +18,5 @@ class TextConstants {
 class HomePageTxtConstants {
   static const String homeTabLabel = "Home";
   static const String settingsTabLabel = "Settings";
-  static const String quitTabLabel = "Quit";
+  static const String quitTabLabel = "Back";
 }
