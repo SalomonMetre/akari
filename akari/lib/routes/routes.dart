@@ -1,7 +1,10 @@
 import 'package:akari/constants/route_paths.dart';
 import 'package:akari/constants/route_names.dart';
+import 'package:akari/screens/game_page.dart';
 import 'package:akari/screens/home_page.dart';
 import 'package:akari/screens/intro_page.dart';
+import 'package:akari/screens/level_page.dart';
+import 'package:akari/screens/menu_page.dart';
 import 'package:akari/screens/start_page.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,13 +20,35 @@ class AppRouter {
       GoRoute(
         path: RoutePaths.introPage,
         name: RouteNames.introPage,
-        builder: (context, GoRouterState state) => const IntroPage(),
+        builder: (context, state) => const IntroPage(),
       ),
       GoRoute(
         path: RoutePaths.homePage,
         name: RouteNames.homePage,
-        builder: (context, GoRouterState state) => const HomePage(),
+        builder: (context, state) => const HomePage(),
       ),
+      GoRoute(
+        path: RoutePaths.menuPage,
+        name: RouteNames.menuPage,
+        builder: (context, state) => const MenuPage(),
+      ),
+      GoRoute(
+        path: '${RoutePaths.levelPage}/:level',
+        builder: (context, state) {
+          final level = state.pathParameters['level']!;
+          return LevelPage(level: level);
+        },
+      ),
+      GoRoute(
+        path: '${RoutePaths.gamePage}/:level/:gameNo',
+        name: RouteNames.gamePage,
+        builder: (context, state){
+          final level = state.pathParameters["level"]!;
+          final gameNo = int.tryParse(state.pathParameters["gameNo"]!)!;
+          return GamePage(level: level, gameNo : gameNo);
+        }
+      )
+
     ],
   );
 }

@@ -37,7 +37,7 @@ class _IntroPageState extends State<IntroPage> {
     return Scaffold(
       body: SafeArea(
         child: GFIntroScreen(
-          color: AppColors.logoBgColor,
+          color: Colors.transparent,
           slides: slides(screenSize: screenSize),
           pageController: _pageController,
           currentIndex: initialIndex,
@@ -58,10 +58,10 @@ class _IntroPageState extends State<IntroPage> {
                   curve: Curves.linear);
             },
             onDoneTap: () {
-              goTo(context, destination: RouteNames.homePage, push: true);
+              goToNamed(context, destination: RouteNames.homePage, push: true);
             },
             onSkipTap: () {
-              goTo(context, destination: RouteNames.homePage, push: true);
+              goToNamed(context, destination: RouteNames.homePage, push: true);
             },
             dotShape: const CircleBorder(side: BorderSide.none),
             navigationBarColor: AppColors.logoBgColor,
@@ -75,167 +75,111 @@ class _IntroPageState extends State<IntroPage> {
 
   List<Widget> slides({required Size screenSize}) {
     slideList = [
-      GFImageOverlay(
-        height: 200,
-        width: 300,
-        image: const AssetImage(ImagePaths.appLogo),
-        colorFilter: ColorFilter.mode(
-            AppColors.logoBgColor.withOpacity(0.95), BlendMode.lighten),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+      buildSlide(
+        screenSize: screenSize,
+        title: "What is Akari ?",
+        description: TextConstants.akariDescription,
+        buttonText: "Play Now",
+        image: ImagePaths.appLogo,
+      ),
+      buildSlide(
+        screenSize: screenSize,
+        title: "Akari Rules",
+        description: "",
+        buttonText: "Play Now",
+        image: ImagePaths.appLogo,
+        content: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                width: double.infinity,
-                color: Colors.transparent,
-                child: Text(
-                  "What is Akari ?",
-                  style: GoogleFonts.aclonica(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const Divider(),
-              Container(
-                color: Colors.transparent,
-                child: Text(
-                  TextConstants.akariDescription,
-                  style: AppFonts.introStyle,
-                ),
-              ),
-              const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  GFButton(
-                    color: GFColors.SUCCESS,
-                    onPressed: null,
-                    child: Text(
-                      "Play Now",
-                      style: GoogleFonts.aclonica(color: GFColors.WHITE),
-                    ),
-                  )
-                ],
-              )
+              buildAccordion("Rule @1", TextConstants.akariRules1),
+              buildAccordion("Rule @2", TextConstants.akariRules2),
+              buildAccordion("Rule @3", TextConstants.akariRules3),
+              buildAccordion("Rule @4", TextConstants.akariRules4),
             ],
           ),
         ),
       ),
-      GFImageOverlay(
-        height: 200,
-        width: 300,
-        image: const AssetImage(ImagePaths.appLogo),
-        colorFilter: ColorFilter.mode(
-            AppColors.logoBgColor.withOpacity(0.95), BlendMode.lighten),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 96.0, horizontal: 32.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "Akari Rules",
-                  style: GoogleFonts.aclonica(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const Divider(),
-                GFAccordion(
-                  title: "Rule @1",
-                  content: TextConstants.akariRules1,
-                  contentBackgroundColor: Colors.transparent,
-                  collapsedTitleBackgroundColor: GFColors.TRANSPARENT,
-                  textStyle: AppFonts.introStyle,
-                ),
-                GFAccordion(
-                  title: "Rule @2",
-                  content: TextConstants.akariRules2,
-                  contentBackgroundColor: GFColors.TRANSPARENT,
-                  collapsedTitleBackgroundColor: GFColors.TRANSPARENT,
-                  textStyle: AppFonts.introStyle,
-                ),
-                GFAccordion(
-                  title: "Rule @3",
-                  content: TextConstants.akariRules3,
-                  contentBackgroundColor: Colors.transparent,
-                  collapsedTitleBackgroundColor: GFColors.TRANSPARENT,
-                  textStyle: AppFonts.introStyle,
-                ),
-                GFAccordion(
-                  title: "Rule @4",
-                  content: TextConstants.akariRules4,
-                  contentBackgroundColor: Colors.transparent,
-                  collapsedTitleBackgroundColor: GFColors.TRANSPARENT,
-                  textStyle: AppFonts.introStyle,
-                ),
-                const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    GFButton(
-                      color: GFColors.SUCCESS,
-                      onPressed: null,
-                      child: Text(
-                        "Play Now",
-                        style: GoogleFonts.aclonica(color: GFColors.WHITE),
-                      ),
-                    )
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-      GFImageOverlay(
-        height: 200,
-        width: 300,
-        image: const AssetImage(ImagePaths.appLogo),
-        colorFilter: ColorFilter.mode(
-            AppColors.logoBgColor.withOpacity(0.95), BlendMode.lighten),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: double.infinity,
-                color: Colors.transparent,
-                child: Text(
-                  "Fun Fact 🤯 ",
-                  style: GoogleFonts.aclonica(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const Divider(),
-              Container(
-                color: Colors.transparent,
-                child: Text(
-                  TextConstants.funFactComplexity,
-                  style: AppFonts.introStyle,
-                ),
-              ),
-              const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  GFButton(
-                    color: GFColors.SUCCESS,
-                    onPressed: null,
-                    child: Text(
-                      "Play Now",
-                      style: GoogleFonts.aclonica(color: GFColors.WHITE),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
+      buildSlide(
+        screenSize: screenSize,
+        title: "Fun Fact 🤯",
+        description: TextConstants.funFactComplexity,
+        buttonText: "Play Now",
+        image: ImagePaths.appLogo,
       ),
     ];
     return slideList;
+  }
+
+  Widget buildSlide({
+    required Size screenSize,
+    required String title,
+    required String description,
+    required String buttonText,
+    required String image,
+    Widget? content,
+  }) {
+    return Container(
+      width: screenSize.width,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [AppColors.blue1, AppColors.blue2,],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 24),
+            Text(
+              title,
+              style: GoogleFonts.aclonica(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            if (description.isNotEmpty)
+              Text(
+                description,
+                style: AppFonts.introStyle.copyWith(color: Colors.white70),
+                textAlign: TextAlign.center,
+              ),
+            if (content != null) ...[
+              const SizedBox(height: 24),
+              Expanded(child: content),
+            ],
+            const SizedBox(height: 24),
+            GFButton(
+              color: GFColors.SUCCESS,
+              onPressed: () {
+                goToNamed(context, destination: RouteNames.homePage, push: true);
+              },
+              child: Text(
+                buttonText,
+                style: GoogleFonts.aclonica(color: GFColors.WHITE),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildAccordion(String title, String content) {
+    return GFAccordion(
+      showAccordion: true,
+      title: title,
+      content: content,
+      expandedTitleBackgroundColor: AppColors.blue2,
+      contentBackgroundColor: AppColors.blue1,
+      collapsedTitleBackgroundColor: AppColors.blue1,
+      textStyle: AppFonts.introStyle.copyWith(color: Colors.white),
+    );
   }
 }

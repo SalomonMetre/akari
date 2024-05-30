@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/colors/gf_color.dart';
 import 'package:getwidget/components/toast/gf_toast.dart';
 import 'package:getwidget/position/gf_toast_position.dart';
+import 'package:animate_do/animate_do.dart';
 
 /// Start page :
 /// It contains the main animation that leads to the IntroPage
@@ -21,36 +22,43 @@ class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: FlutterSplashScreen.fadeIn(
-          animationCurve: Curves.slowMiddle,
-          backgroundImage: Image.asset(
-            ImagePaths.appLogo,
-          ),
-          duration: const Duration(seconds: Numericals.splashScreenDuration),
-          onAnimationEnd: () {
-            GFToast.showToast(
-              "Welcome to AKARI !",
-              context,
-              toastDuration: 5,
-              toastPosition: GFToastPosition.BOTTOM,
-              trailing: const Icon(
-                Icons.info,
-                color: GFColors.SUCCESS,
-              ),
-            );
-            goTo(context, destination: RouteNames.introPage, push: true);
-          },
-          childWidget: Center(
-            child: ClipOval(
-              clipBehavior: Clip.antiAlias,
-              child: Image.asset(
+      body: Stack(
+        children: [
+          SafeArea(
+            child: FlutterSplashScreen.fadeIn(
+              animationCurve: Curves.slowMiddle,
+              backgroundImage: Image.asset(
                 ImagePaths.appLogo,
-                fit: BoxFit.fill,
+              ),
+              duration: const Duration(seconds: Numericals.splashScreenDuration),
+              onAnimationEnd: () {
+                GFToast.showToast(
+                  "Welcome to AKARI!",
+                  context,
+                  toastDuration: 5,
+                  toastPosition: GFToastPosition.BOTTOM,
+                  trailing: const Icon(
+                    Icons.info,
+                    color: GFColors.SUCCESS,
+                  ),
+                );
+                goToNamed(context, destination: RouteNames.introPage, push: true);
+              },
+              childWidget: Center(
+                child: ClipOval(
+                  clipBehavior: Clip.antiAlias,
+                  child: FadeIn(
+                    duration: const Duration(seconds: 2),
+                    child: Image.asset(
+                      ImagePaths.appLogo,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

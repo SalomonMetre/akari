@@ -1,109 +1,132 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:akari/constants/app_colors.dart';
-import 'package:akari/constants/asset_names.dart';
 import 'package:akari/constants/route_names.dart';
-import 'package:akari/constants/texts.dart';
 import 'package:akari/functions/routing.dart';
 import 'package:akari/functions/utilities.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:getwidget/getwidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-/// Main page
-/// Contains the main game menu
 class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: GFImageOverlay(
-          image: const AssetImage(ImagePaths.appLogo),
-          colorFilter: ColorFilter.mode(
-              AppColors.logoBgColor.withOpacity(0.95), BlendMode.lighten),
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: GestureDetector(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AnimatedTextKit(
-                    animatedTexts: [
-                      WavyAnimatedText(
-                        'PLAY NOW',
-                        textStyle: GoogleFonts.nosifer(
-                            fontSize: 25, color: Colors.teal),
-                      ),
-                    ],
-                    isRepeatingAnimation: true,
-                    repeatForever: true,
-                    onTap: () {
-                      print("Tap Event");
-                    },
+      appBar: AppBar(
+        backgroundColor: AppColors.blue2,
+        foregroundColor: AppColors.white,
+      ),
+      drawer: Drawer(
+        child: Padding(
+          padding: EdgeInsets.zero,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: AppColors.blue2,
+                ),
+                child: Text(
+                  'Akari Game',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
                   ),
-                  const Divider(
-                    color: Colors.teal,
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.settings, color: AppColors.blue2),
+                title: Text('Settings'),
+                onTap: () {
+                  Navigator.pop(context);
+                  // TODO go to home page
+                  goToNamed(context, destination: RouteNames.homePage);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.info, color: AppColors.blue2),
+                title: Text('About'),
+                onTap: () {
+                  Navigator.pop(context);
+                  // TODO go to about page
+                  goToNamed(context, destination: RouteNames.homePage);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [AppColors.blue1, AppColors.blue2],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedTextKit(
+                animatedTexts: [
+                  WavyAnimatedText(
+                    'PLAY NOW',
+                    textStyle: GoogleFonts.nosifer(
+                      fontSize: 30,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
+                isRepeatingAnimation: true,
+                repeatForever: true,
+                onTap: () {
+                  goToNamed(context, destination: RouteNames.menuPage, push: true);
+                },
               ),
-            ),
+              const Padding(padding: EdgeInsets.symmetric(horizontal: 32), child: Divider(color: AppColors.white,),)
+            ],
           ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const [
+        backgroundColor: AppColors.blue2,
+        unselectedItemColor: AppColors.white,
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            label: HomePageTxtConstants.homeTabLabel,
             icon: Icon(Icons.home),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            label: HomePageTxtConstants.settingsTabLabel,
             icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
           BottomNavigationBarItem(
-            label: HomePageTxtConstants.quitTabLabel,
-            icon: Icon(Icons.arrow_back),
+            icon: Icon(Icons.exit_to_app),
+            label: 'Quit',
           ),
         ],
-        currentIndex: 0,
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.teal,
+        currentIndex: _selectedIndex,
+        selectedItemColor: AppColors.yellow,
         onTap: (index) async {
-          switch (index) {
-            case 0:
-              goTo(context, destination: RouteNames.homePage);
-              break;
-            case 1:
-              goTo(context, destination: RouteNames.homePage);
-              break;
-            case 2:
-              bool? result = await showYesNoDialog(context,
-                  questionText: "Do you want to quit the game ?",
-                  confirmText: "Confirm");
-              if (result != null) {
-                if (result) {
-                  SystemNavigator.pop(animated: true);
-                }else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      "Keep playing !",
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                );
-              }
-              }
-              break;
+          if (index == 2) {
+            final result = await showQuitDialog(context);
+            if (result != null && result) {
+              appExit();
+            }
+          } else {
+            setState(() {
+              _selectedIndex = index;
+            });
           }
         },
       ),
