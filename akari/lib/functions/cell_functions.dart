@@ -14,12 +14,15 @@ Widget renderCell(
         color: Colors.black,
       ),
     0 => Container(
-        color: Colors.white,
+        color: Colors.white70,
       ),
-    10 => const Icon(
-        Icons.light,
-        color: AppColors.yellow,
-      ),
+    10 => Container(
+      color: Colors.yellow,
+      child: const Icon(
+          Icons.light,
+          color: Colors.deepOrangeAccent,
+        ),
+    ),
     20 => Container(
         color: Colors.yellow,
       ),

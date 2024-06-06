@@ -168,8 +168,8 @@ class _GamePageState extends State<GamePage> {
                       child: GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: crossAxisCount,
-                          crossAxisSpacing: 0.5,
-                          mainAxisSpacing: 0.5,
+                          crossAxisSpacing: 0.3,
+                          mainAxisSpacing: 0.3,
                           childAspectRatio: 1.0,
                         ),
                         itemCount: gridSize * gridSize,
@@ -180,13 +180,11 @@ class _GamePageState extends State<GamePage> {
                             child: SizedBox(
                               width: cellSize,
                               height: cellSize,
-                              child: Center(
-                                child: renderCell(
-                                    gridProposition: gridProposition,
-                                    row: row,
-                                    col: col,
-                                    cellSize: cellSize),
-                              ),
+                              child: renderCell(
+                                  gridProposition: gridProposition,
+                                  row: row,
+                                  col: col,
+                                  cellSize: cellSize),
                             ),
                             onTap: () {
                               if (gridProposition[row][col] == 0) {
