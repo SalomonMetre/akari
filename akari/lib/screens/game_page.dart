@@ -1,9 +1,9 @@
 import 'package:akari/constants/app_colors.dart';
 import 'package:akari/constants/route_names.dart';
+import 'package:akari/functions/cell_functions.dart';
 import 'package:akari/functions/grid_functions.dart';
 import 'package:akari/functions/utilities.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 
 import '../functions/routing.dart';
@@ -22,7 +22,7 @@ class _GamePageState extends State<GamePage> {
   late Timer _timer;
   int _seconds = 0;
   int gridSize = 0;
-  List gridProposition = [];
+  List<List<int>> gridProposition = [];
   double difficulty = 0.0;
 
   void _initializeDiffGridPropositionAndArraySize() {
@@ -37,7 +37,7 @@ class _GamePageState extends State<GamePage> {
       _ => 0.25,
     };
     gridProposition = genererGrilleProposition(
-        genererGrilleVideSolution(
+        genererGrilleSolution(
             genererGrilleVide(gridSize), gridSize, difficulty),
         gridSize);
   }
@@ -47,6 +47,8 @@ class _GamePageState extends State<GamePage> {
     super.initState();
     _startTimer();
     _initializeDiffGridPropositionAndArraySize();
+    print("Initial grid : ");
+    afficherGrille(gridProposition, gridSize);
   }
 
   void _startTimer() {
@@ -154,7 +156,13 @@ class _GamePageState extends State<GamePage> {
                   child: Center(
                     child: Container(
                       decoration: const BoxDecoration(
-                        gradient: LinearGradient(colors: <Color>[AppColors.blue3, AppColors.blue2, AppColors.blue3],),
+                        gradient: LinearGradient(
+                          colors: <Color>[
+                            AppColors.blue3,
+                            AppColors.blue2,
+                            AppColors.blue3
+                          ],
+                        ),
                       ),
                       padding: const EdgeInsets.all(20.0),
                       child: GridView.builder(
@@ -173,35 +181,25 @@ class _GamePageState extends State<GamePage> {
                               width: cellSize,
                               height: cellSize,
                               child: Center(
-                                child: gridProposition[row][col] == -1
-                                    ? Container(
-                                        color: Colors.black,
-                                      )
-                                    : (gridProposition[row][col] == 0
-                                        ? Container(
-                                            color: Colors.white,
-                                          )
-                                        : gridProposition[row][col] != 10 ? Container(
-                                            width: cellSize,
-                                            height: cellSize,
-                                            color: AppColors.black,
-                                            child: Center(
-                                              child: Text(
-                                                "${gridProposition[row][col]}",
-                                                style: GoogleFonts.cherrySwash(
-                                                  color: AppColors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
-                                                ),
-                                              ),
-                                            ),
-                                          ): const Icon(Icons.light, color: AppColors.yellow,)),
+                                child: renderCell(
+                                    gridProposition: gridProposition,
+                                    row: row,
+                                    col: col,
+                                    cellSize: cellSize),
                               ),
                             ),
                             onTap: () {
-                              if(gridProposition[row][col] == 0 || gridProposition [row][col] == 10){
-                                gridProposition[row][col] = gridProposition[row][col] == 10 ? 0 : 10;
-                              setState(() {});
+                              if (gridProposition[row][col] == 0) {
+                                ajouterLampe(
+                                    gridProposition, gridSize, row, col);
+                                setState(() {});
+                                if (isGridCorrect(gridProposition)) {
+                                    showLevelEndDialog(context);
+                                  }
+                              } else if (gridProposition[row][col] == 10) {
+                                retirerLampe(
+                                    gridProposition, gridSize, row, col);
+                                setState(() {});
                               }
                             },
                           );
