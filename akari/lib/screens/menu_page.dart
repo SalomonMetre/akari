@@ -107,7 +107,7 @@ class _MenuPageState extends State<MenuPage> {
                       width: 200,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: Colors.blue.withOpacity(0.7),
+                        color: AppColors.blue3,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       alignment: Alignment.center,
