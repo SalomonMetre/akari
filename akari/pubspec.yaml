@@ -43,6 +43,10 @@ dependencies:
   animated_text_kit: ^4.2.2
   animate_do: ^3.3.4
   logging: ^1.2.0
+  firebase_core: ^3.0.0
+  ionicons: ^0.2.2
+  sqflite: ^2.3.3+1
+  path: ^1.9.0
 
 dev_dependencies:
   flutter_test:

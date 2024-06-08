@@ -4,6 +4,8 @@ import 'package:akari/functions/cell_functions.dart';
 import 'package:akari/functions/grid_functions.dart';
 import 'package:akari/functions/utilities.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ionicons/ionicons.dart';
 import 'dart:async';
 
 import '../functions/routing.dart';
@@ -24,6 +26,7 @@ class _GamePageState extends State<GamePage> {
   int gridSize = 0;
   List<List<int>> gridProposition = [];
   double difficulty = 0.0;
+  bool hasGameEnded = false;
 
   void _initializeDiffGridPropositionAndArraySize() {
     gridSize = switch (widget.level) {
@@ -34,7 +37,7 @@ class _GamePageState extends State<GamePage> {
     difficulty = switch (widget.level) {
       "Easy" => 0.1,
       "Medium" => 0.2,
-      _ => 0.25,
+      _ => 0.3,
     };
     gridProposition = genererGrilleProposition(
         genererGrilleSolution(
@@ -47,14 +50,13 @@ class _GamePageState extends State<GamePage> {
     super.initState();
     _startTimer();
     _initializeDiffGridPropositionAndArraySize();
-    print("Initial grid : ");
-    afficherGrille(gridProposition, gridSize);
+    // afficherGrille(gridProposition, gridSize);
   }
 
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
-        _seconds++;
+        _seconds = !hasGameEnded ? _seconds + 1 : _seconds;
       });
     });
   }
@@ -84,14 +86,14 @@ class _GamePageState extends State<GamePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const DrawerHeader(
-                decoration: BoxDecoration(
+              DrawerHeader(
+                decoration: const BoxDecoration(
                   color: AppColors.blue2,
                 ),
                 child: Text(
                   'Akari Game',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: GoogleFonts.cabin(
                     color: Colors.white,
                     fontSize: 24,
                   ),
@@ -144,12 +146,57 @@ class _GamePageState extends State<GamePage> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                    _formatTime(_seconds),
-                    style: const TextStyle(
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.white),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)),
+                              color: AppColors.blue2,
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Ionicons.flag,
+                                  color: AppColors.green,
+                                ),
+                                Text(
+                                  "Give Up !",
+                                  style: GoogleFonts.cabin(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          _formatTime(_seconds),
+                          style: GoogleFonts.cabin(
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.white),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          // _formatTime(_seconds),
+                          "Current \nBest Score : ",
+                          style: GoogleFonts.cabin(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.white),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
@@ -192,8 +239,10 @@ class _GamePageState extends State<GamePage> {
                                     gridProposition, gridSize, row, col);
                                 setState(() {});
                                 if (isGridCorrect(gridProposition)) {
-                                    showLevelEndDialog(context);
-                                  }
+                                  showLevelEndDialog(context);
+                                  hasGameEnded = true;
+                                  setState(() {});
+                                }
                               } else if (gridProposition[row][col] == 10) {
                                 retirerLampe(
                                     gridProposition, gridSize, row, col);
@@ -206,36 +255,39 @@ class _GamePageState extends State<GamePage> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
+                Container(
+                  color: AppColors.blue1,
+                  padding: const EdgeInsets.all(16.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
                       ElevatedButton(
-                        onPressed: () {
-                          // Handle check button press
-                          print('Check button pressed');
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.white,
-                          foregroundColor: AppColors.blue2,
+                        onPressed: () {},
+                        style: ButtonStyle(
+                            backgroundColor:
+                                WidgetStateProperty.all(AppColors.blue3),
+                            foregroundColor:
+                                WidgetStateProperty.all(AppColors.white)),
+                        child: Text(
+                          "Save Score",
+                          style: GoogleFonts.cabin(),
                         ),
-                        child: const Text('Check'),
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          // Handle leaderboard button press
-                          print('Leaderboard button pressed');
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.white,
-                          foregroundColor: AppColors.blue2,
+                        onPressed: () {print("Level ${widget.level}, gameNo : ${widget.gameNo}");},
+                        style: ButtonStyle(
+                            backgroundColor:
+                                WidgetStateProperty.all(AppColors.blue3),
+                            foregroundColor:
+                                WidgetStateProperty.all(AppColors.white)),
+                        child: Text(
+                          "Leaderboard",
+                          style: GoogleFonts.cabin(),
                         ),
-                        child: const Text('Leaderboard'),
                       ),
                     ],
                   ),
-                ),
+                )
               ],
             ),
           );

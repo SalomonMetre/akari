@@ -5,6 +5,7 @@ import 'package:akari/functions/routing.dart';
 import 'package:akari/functions/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({Key? key}) : super(key: key);
@@ -49,14 +50,14 @@ class _MenuPageState extends State<MenuPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const DrawerHeader(
-                decoration: BoxDecoration(
+              DrawerHeader(
+                decoration: const BoxDecoration(
                   color: AppColors.blue2,
                 ),
                 child: Text(
                   'Akari Game',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: GoogleFonts.cabin(
                     color: Colors.white,
                     fontSize: 24,
                   ),
@@ -113,7 +114,7 @@ class _MenuPageState extends State<MenuPage> {
                       alignment: Alignment.center,
                       child: Text(
                         'Easy',
-                        style: TextStyle(
+                        style: GoogleFonts.cabin(
                           color: Colors.white,
                           fontSize: 20,
                         ),
@@ -138,7 +139,7 @@ class _MenuPageState extends State<MenuPage> {
                       alignment: Alignment.center,
                       child: Text(
                         'Medium',
-                        style: TextStyle(
+                        style: GoogleFonts.cabin(
                           color: Colors.white,
                           fontSize: 20,
                         ),
@@ -163,7 +164,7 @@ class _MenuPageState extends State<MenuPage> {
                       alignment: Alignment.center,
                       child: Text(
                         'Infernal',
-                        style: TextStyle(
+                        style: GoogleFonts.cabin(
                           color: Colors.white,
                           fontSize: 20,
                         ),
@@ -188,7 +189,7 @@ class _MenuPageState extends State<MenuPage> {
                       alignment: Alignment.center,
                       child: Text(
                         '👥 Multiplayer',
-                        style: TextStyle(
+                        style: GoogleFonts.cabin(
                           color: Colors.white,
                           fontSize: 20,
                         ),

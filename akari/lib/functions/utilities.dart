@@ -1,7 +1,9 @@
 import 'package:akari/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ionicons/ionicons.dart';
 
 void appExit() {
   SystemNavigator.pop();
@@ -73,10 +75,10 @@ void showLevelEndDialog(BuildContext context) {
       return AlertDialog(
         title: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20),
-          child: const Text(
+          child: Text(
             textAlign: TextAlign.center,
             'Congratulations!',
-            style: TextStyle(
+            style: GoogleFonts.cabin(
                 fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),
@@ -84,76 +86,80 @@ void showLevelEndDialog(BuildContext context) {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        content: const Text(
-          textAlign: TextAlign.right,
-          'You have solved the puzzle!',
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.white,
-          ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,  // This line is added
+          children: [
+            const Icon(Ionicons.trophy, size: 20, color: AppColors.yellow),
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                text: "Congrats !",
+                style: GoogleFonts.cabin(fontSize: 12),
+                children: <TextSpan>[
+                  TextSpan(text: "\nYOU WON !", style: GoogleFonts.cabin(fontSize: 20, shadows: <Shadow>[
+                    Shadow(blurRadius: 10, offset: Offset.fromDirection(1, 5)),Shadow(blurRadius: 10, offset: Offset.fromDirection(2, 5)),
+                  ])),
+                ],
+              ),
+            ),
+          ],
         ),
         actions: <Widget>[
           Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min,  // This line is added
             children: <Widget>[
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
-                child: Expanded(
-                  child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(AppColors.blue3),
-                      minimumSize: WidgetStateProperty.all(
-                          const Size(double.infinity, 50)),
-                    ),
-                    onPressed: () {
-                      // TODO: Implement save my score functionality
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      'Save Score',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
+                child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(AppColors.blue3),
+                    minimumSize: WidgetStateProperty.all(
+                        const Size(double.infinity, 50)),
+                  ),
+                  onPressed: () {
+                    // TODO: Implement save my score functionality
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'Publish Score',
+                    style: GoogleFonts.cabin(fontSize: 16, color: Colors.white),
                   ),
                 ),
               ),
               const SizedBox(height: 16),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
-                child: Expanded(
-                  child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(Colors.green),
-                      minimumSize: WidgetStateProperty.all(
-                          const Size(double.infinity, 50)),
-                    ),
-                    onPressed: () {
-                      // TODO: Implement next level functionality
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      'Next Level',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
+                child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(Colors.green),
+                    minimumSize: WidgetStateProperty.all(
+                        const Size(double.infinity, 50)),
+                  ),
+                  onPressed: () {
+                    // TODO: Implement next level functionality
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'Next Level',
+                    style: GoogleFonts.cabin(fontSize: 16, color: Colors.white),
                   ),
                 ),
               ),
               const SizedBox(height: 16),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
-                child: Expanded(
-                  child: TextButton(
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(Colors.red),
-                      minimumSize: WidgetStateProperty.all(
-                          const Size(double.infinity, 50)),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      'Close',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
+                child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(Colors.red),
+                    minimumSize: WidgetStateProperty.all(
+                        const Size(double.infinity, 50)),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'Close',
+                    style: GoogleFonts.cabin(fontSize: 16, color: Colors.white),
                   ),
                 ),
               ),
@@ -164,3 +170,4 @@ void showLevelEndDialog(BuildContext context) {
     },
   );
 }
+

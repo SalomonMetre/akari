@@ -1,12 +1,14 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:akari/constants/app_colors.dart';
 import 'package:akari/constants/route_names.dart';
 import 'package:akari/constants/route_paths.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:akari/models/sqlite_level_model_repository.dart';
 import '../functions/routing.dart';
 
 class LevelPage extends StatefulWidget {
   final String level;
+
   const LevelPage({Key? key, required this.level}) : super(key: key);
 
   @override
@@ -14,7 +16,24 @@ class LevelPage extends StatefulWidget {
 }
 
 class _LevelPageState extends State<LevelPage> {
-  final List<int> levels = List.generate(40, (index) => index + 1);
+  List<int> unlockedGameNos = [];
+
+  @override
+  void initState() {
+    super.initState();
+    initializeUnlockedGameNos();
+  }
+
+  Future<void> initializeUnlockedGameNos() async {
+    final levels =
+        await SQLiteLevelModelRepository().getLevelsByLevel(widget.level);
+    setState(() {
+      unlockedGameNos = levels
+          .where((level) => level.status)
+          .map<int>((level) => level.gameNo)
+          .toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +41,10 @@ class _LevelPageState extends State<LevelPage> {
       appBar: AppBar(
         backgroundColor: AppColors.blue2,
         foregroundColor: AppColors.white,
-        title: Text(widget.level, style: GoogleFonts.cherrySwash(),),
+        title: Text(
+          widget.level,
+          style: GoogleFonts.cherrySwash(),
+        ),
         centerTitle: true,
       ),
       drawer: Drawer(
@@ -31,14 +53,14 @@ class _LevelPageState extends State<LevelPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const DrawerHeader(
-                decoration: BoxDecoration(
+              DrawerHeader(
+                decoration: const BoxDecoration(
                   color: AppColors.blue2,
                 ),
                 child: Text(
                   'Akari Game',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: GoogleFonts.cabin(
                     color: Colors.white,
                     fontSize: 24,
                   ),
@@ -73,31 +95,34 @@ class _LevelPageState extends State<LevelPage> {
             crossAxisSpacing: 10.0,
             mainAxisSpacing: 10.0,
           ),
-          itemCount: levels.length,
+          itemCount: 40,
           itemBuilder: (BuildContext context, int index) {
+            final gameNo = index + 1;
+            final isUnlocked = unlockedGameNos.contains(gameNo) || gameNo == 1;
             return GestureDetector(
-              onTap: () {
-                // launch game
-                goTo(context, destination: '${RoutePaths.gamePage}/${widget.level}/${levels[index]}/', push: true);
-              },
-              // onTap: null,
+              onTap: isUnlocked
+                  ? () {
+                      // Launch game
+                      goTo(context,
+                          destination:
+                              '${RoutePaths.gamePage}/${widget.level}/$gameNo/',
+                          push: true);
+                    }
+                  : null,
               child: Container(
                 decoration: BoxDecoration(
-                  color: AppColors.purple,
-                  // color: AppColors.blue2,
+                  color: isUnlocked ? AppColors.purple : AppColors.blue2,
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Center(
-                  child: Text(
-                    '${levels[index]}',
+                  child: isUnlocked ? Text(
+                    '$gameNo',
                     style: GoogleFonts.cherrySwash(
-                      // color: Colors.blue1,
-                      color : AppColors.white,
+                      color: AppColors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 20.0,
                     ),
-                  ),
-                  // child: Icon(Icons.lock, color: AppColors.purple,),
+                  ) : const Icon(Icons.lock, color:AppColors.purple),
                 ),
               ),
             );

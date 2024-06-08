@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "336608851935",
+    "project_id": "akari-94230",
+    "storage_bucket": "akari-94230.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336608851935:android:9f2ac0e837c54b3727766a",
+        "android_client_info": {
+          "package_name": "com.example.akari"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADxD0Kvcxsap1G0GngcC6WAHNfBws7Nto"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
