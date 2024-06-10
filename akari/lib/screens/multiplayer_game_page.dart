@@ -1,163 +1,38 @@
-// ignore_for_file: use_build_context_synchronously, use_super_parameters, unused_local_variable, library_private_types_in_public_api
+// ignore_for_file: use_build_context_synchronously, use_super_parameters, unused_local_variable, library_private_types_in_public_api, must_be_immutable
 
 import 'package:akari/constants/app_colors.dart';
 import 'package:akari/constants/route_names.dart';
 import 'package:akari/functions/cell_functions.dart';
 import 'package:akari/functions/grid_functions.dart';
 import 'package:akari/functions/utilities.dart';
-import 'package:akari/models/auth_model.dart';
-import 'package:akari/models/db_model.dart';
-import 'package:akari/screens/leaderboard.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:akari/multiplayer/client.dart';
+import 'package:akari/multiplayer/server.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ionicons/ionicons.dart';
 import 'dart:async';
 import '../functions/routing.dart';
 
-class GamePage extends StatefulWidget {
+class MultiPlayerGamePage extends StatefulWidget {
+  Server? server;
+  Client? client;
   final String difficulty;
-  final int gameNo;
-  const GamePage({Key? key, required this.difficulty, required this.gameNo})
+  // final int gameNo;
+  MultiPlayerGamePage({Key? key, required this.difficulty, this.server, this.client})
       : super(key: key);
 
   @override
-  _GamePageState createState() => _GamePageState();
+  _MultiPlayerGamePageState createState() => _MultiPlayerGamePageState();
 }
 
-class _GamePageState extends State<GamePage> {
+class _MultiPlayerGamePageState extends State<MultiPlayerGamePage> {
   late Timer _timer;
   int _seconds = 0;
   int gridSize = 0;
   List<List<int>> gridProposition = [];
   double difficulty = 0.0;
   bool hasGameEnded = false;
-  int oldScore = 0, bestScore = 0;
 
-  Future<void> fetchLeaderboardData() async {
-    String userEmail = Auth().firebaseAuthInstance.currentUser!.email!;
-
-    try {
-      QuerySnapshot<Map<String, dynamic>> snapshot =
-          await DbModel.instance.getAllDataWhereConditions(
-        collectionName: "unlocked_games",
-        conditions: {
-          "difficulty": widget.difficulty,
-          "game_no": widget.gameNo,
-        },
-      );
-
-      if (snapshot.size > 0) {
-        List<QueryDocumentSnapshot<Map<String, dynamic>>> leaderboard =
-            snapshot.docs;
-        showLeaderboardDialog(leaderboard);
-      } else {
-        print('No leaderboard data found.');
-      }
-    } catch (e) {
-      print("Error fetching leaderboard data: $e");
-    }
-  }
-
-  void showLeaderboardDialog(
-      List<QueryDocumentSnapshot<Map<String, dynamic>>> leaderboard) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text('Leaderboard'),
-        content: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "Players' scores:",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: leaderboard.length,
-                  itemBuilder: (context, index) {
-                    final entry = leaderboard[index];
-                    return ListTile(
-                      title: Text(
-                        'Email: ${entry['user_email']}',
-                        style: const TextStyle(color: AppColors.white),
-                      ),
-                      subtitle: Text(
-                        'Score: ${entry['score']}',
-                        style: const TextStyle(color: AppColors.yellow),
-                      ),
-                      tileColor: entry['user_email'] ==
-                              Auth().firebaseAuthInstance.currentUser!.email!
-                          ? AppColors.blue3
-                          : null,
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all(Colors.red),
-              foregroundColor: WidgetStateProperty.all(Colors.white),
-            ),
-            child: const Text('Close'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> unlockNextGameForCurrentDifficulty(
-      String email, String difficulty, int gameNo) async {
-    try {
-      // Unlock the next game for the current difficulty level
-      await DbModel.instance.save(
-        // documentId: email,
-        collectionName: "unlocked_games",
-        data: {
-          "user_email": email,
-          "difficulty": difficulty,
-          "game_no": gameNo,
-        },
-      );
-    } catch (e) {
-      print("Error unlocking next game for $difficulty difficulty: $e");
-    }
-  }
-
-  Future<void> _fetchBestScore() async {
-    String userEmail = Auth().firebaseAuthInstance.currentUser!.email!;
-    try {
-      final snapshot = await DbModel.instance.getAllDataWhereConditions(
-        collectionName: "unlocked_games",
-        conditions: {
-          "user_email": userEmail,
-          "difficulty": widget.difficulty,
-          "game_no": widget.gameNo,
-        },
-      );
-      if (snapshot.docs.isNotEmpty) {
-        setState(() {
-          // Update bestScore if score exists and is less than current bestScore
-          bestScore = snapshot.docs.first["score"] ?? 0;
-          oldScore = bestScore;
-        });
-      }
-    } catch (e) {
-      print("Error fetching best score: $e");
-    }
-  }
-
-  void _initializeDiffGridPropositionAndArraySize() {
+ void _initializeDiffGridPropositionAndArraySize() {
     gridSize = switch (widget.difficulty) {
       "Easy" => 8,
       "Medium" => 9,
@@ -179,7 +54,6 @@ class _GamePageState extends State<GamePage> {
     super.initState();
     _startTimer();
     _initializeDiffGridPropositionAndArraySize();
-    _fetchBestScore();
   }
 
   void _startTimer() {
@@ -209,40 +83,30 @@ class _GamePageState extends State<GamePage> {
         backgroundColor: AppColors.blue2,
         foregroundColor: AppColors.white,
       ),
-       drawer: Drawer(
+      drawer: Drawer(
         child: Padding(
           padding: EdgeInsets.zero,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const DrawerHeader(
-                decoration: BoxDecoration(
+              DrawerHeader(
+                decoration: const BoxDecoration(
                   color: AppColors.blue2,
                 ),
                 child: Text(
                   'Akari Game',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: GoogleFonts.cabin(
                     color: Colors.white,
                     fontSize: 24,
                   ),
                 ),
               ),
               ListTile(
-                leading: const Icon(Icons.account_box, color: AppColors.blue2),
-                title: const Text('Sign In'),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Replace 'RouteNames.signInPage' with the actual route name for your sign-in page
-                  goToNamed(context, destination: RouteNames.signInPage, push: true);
-                },
-              ),
-              ListTile(
                 leading: const Icon(Icons.settings, color: AppColors.blue2),
                 title: const Text('Settings'),
                 onTap: () {
                   Navigator.pop(context);
-                  // TODO go to home page
                   goToNamed(context, destination: RouteNames.homePage);
                 },
               ),
@@ -251,25 +115,13 @@ class _GamePageState extends State<GamePage> {
                 title: const Text('About'),
                 onTap: () {
                   Navigator.pop(context);
-                  // TODO go to about page
                   goToNamed(context, destination: RouteNames.homePage);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.logout, color: AppColors.blue2),
-                title: const Text('Sign Out'),
-                onTap: () {
-                  Navigator.pop(context);
-                  // TODO: Implement sign-out logic
-                  // Example: call a sign-out method from your authentication service
-                  // Once signed out, you may navigate to a different page or update UI accordingly
                 },
               ),
             ],
           ),
         ),
       ),
-      
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           final double maxWidth =
@@ -307,20 +159,6 @@ class _GamePageState extends State<GamePage> {
                                   BorderRadius.all(Radius.circular(10.0)),
                               color: AppColors.blue2,
                             ),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Ionicons.flag,
-                                  color: AppColors.green,
-                                ),
-                                Text(
-                                  "Give Up !",
-                                  style: GoogleFonts.cabin(
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.white),
-                                ),
-                              ],
-                            ),
                           ),
                           onTap: () {
                             Navigator.pop(context);
@@ -334,15 +172,6 @@ class _GamePageState extends State<GamePage> {
                           _formatTime(_seconds),
                           style: GoogleFonts.cabin(
                               fontSize: 30.0,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.white),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          // _formatTime(_seconds),
-                          "Current \nBest Score : $bestScore",
-                          style: GoogleFonts.cabin(
                               fontWeight: FontWeight.bold,
                               color: AppColors.white),
                         ),
@@ -392,13 +221,6 @@ class _GamePageState extends State<GamePage> {
                                 if (isGridCorrect(gridProposition)) {
                                   showLevelEndDialog(context);
                                   hasGameEnded = true;
-                                  await unlockNextGameForCurrentDifficulty(
-                                      Auth()
-                                          .firebaseAuthInstance
-                                          .currentUser!
-                                          .email!,
-                                      widget.difficulty,
-                                      widget.gameNo + 1);
                                   setState(() {});
                                 }
                               } else if (gridProposition[row][col] == 10) {
@@ -421,22 +243,7 @@ class _GamePageState extends State<GamePage> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          if (hasGameEnded) {
-                            bestScore = _seconds;
-                            if (bestScore < oldScore || oldScore == 0) {
-                              DbModel.instance.save(
-                                  collectionName: "unlocked_games",
-                                  data: {
-                                    "user_email": Auth()
-                                        .firebaseAuthInstance
-                                        .currentUser!
-                                        .email!,
-                                    "difficulty": widget.difficulty,
-                                    "game_no": widget.gameNo,
-                                    "score": bestScore,
-                                  });
-                            }
-                          }
+                         
                         },
                         style: ButtonStyle(
                             backgroundColor:
@@ -448,29 +255,7 @@ class _GamePageState extends State<GamePage> {
                           style: GoogleFonts.cabin(),
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LeaderboardPage(
-                                difficulty: widget.difficulty,
-                                gameNo: widget.gameNo,
-                              ),
-                            ),
-                          );
-                        },
-                        style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStateProperty.all(AppColors.blue3),
-                            foregroundColor:
-                                WidgetStateProperty.all(AppColors.white)),
-                        child: Text(
-                          "Leaderboard",
-                          style: GoogleFonts.cabin(),
-                        ),
-                      ),
-                    ],
+                     ],
                   ),
                 )
               ],

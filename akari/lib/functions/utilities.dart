@@ -1,4 +1,6 @@
 import 'package:akari/constants/app_colors.dart';
+import 'package:akari/constants/route_names.dart';
+import 'package:akari/functions/routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -138,6 +140,7 @@ void showLevelEndDialog(BuildContext context) {
                   onPressed: () {
                     // TODO: Implement next level functionality
                     Navigator.of(context).pop();
+                    goToNamed(context, destination: RouteNames.levelPage);
                   },
                   child: Text(
                     'Next Level',

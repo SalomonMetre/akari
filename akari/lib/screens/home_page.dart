@@ -43,8 +43,17 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.settings, color: AppColors.blue2),
-                title: Text('Settings'),
+                leading: const Icon(Icons.account_box, color: AppColors.blue2),
+                title: const Text('Sign In'),
+                onTap: () {
+                  Navigator.pop(context);
+                  // Replace 'RouteNames.signInPage' with the actual route name for your sign-in page
+                  goToNamed(context, destination: RouteNames.signInPage, push: true);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings, color: AppColors.blue2),
+                title: const Text('Settings'),
                 onTap: () {
                   Navigator.pop(context);
                   // TODO go to home page
@@ -52,12 +61,22 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.info, color: AppColors.blue2),
-                title: Text('About'),
+                leading: const Icon(Icons.info, color: AppColors.blue2),
+                title: const Text('About'),
                 onTap: () {
                   Navigator.pop(context);
                   // TODO go to about page
                   goToNamed(context, destination: RouteNames.homePage);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.logout, color: AppColors.blue2),
+                title: const Text('Sign Out'),
+                onTap: () {
+                  Navigator.pop(context);
+                  // TODO: Implement sign-out logic
+                  // Example: call a sign-out method from your authentication service
+                  // Once signed out, you may navigate to a different page or update UI accordingly
                 },
               ),
             ],
@@ -89,10 +108,16 @@ class _HomePageState extends State<HomePage> {
                 isRepeatingAnimation: true,
                 repeatForever: true,
                 onTap: () {
-                  goToNamed(context, destination: RouteNames.menuPage, push: true);
+                  goToNamed(context,
+                      destination: RouteNames.menuPage, push: true);
                 },
               ),
-              const Padding(padding: EdgeInsets.symmetric(horizontal: 32), child: Divider(color: AppColors.white,),)
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 32),
+                child: Divider(
+                  color: AppColors.white,
+                ),
+              )
             ],
           ),
         ),

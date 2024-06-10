@@ -5,4 +5,7 @@ class RoutePaths {
   static const String menuPage = "/menu";
   static const String levelPage = "/level";
   static const String gamePage = "/game";
+  static const String signInPage = "/signin";
+  static const String signUpPage = "/signup";
+  static const String multiPlayerPage = "/multiplayer";
 }
