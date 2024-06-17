@@ -17,7 +17,6 @@ Akari, également connu sous le nom de Light Up, est un jeu de puzzle logique o�
 - **Mode Multijoueur** : Affrontez des amis ou d'autres joueurs en ligne.
 - **Classement** : Suivez vos progrès et comparez vos scores avec ceux des autres joueurs.
 - **Authentification Utilisateur** : Inscrivez-vous et connectez-vous pour sauvegarder vos progrès et accéder aux fonctionnalités multijoueur.
-- **Interface Responsive** : Profitez d'une expérience fluide sur les appareils mobiles et de bureau.
 
 ## Structure du Répertoire ./lib
 
