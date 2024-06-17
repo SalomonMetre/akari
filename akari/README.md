@@ -5,7 +5,7 @@ Akari, également connu sous le nom de Light Up, est un jeu de puzzle logique o�
 ## Table des Matières
 
 - [Fonctionnalités](#fonctionnalités)
-- [Structure du Projet](#structure-du-projet)
+- [Structure du Répertoire ./lib](#structure-du-projet)
 - [Commencer](#commencer)
 - [Dépendances](#dépendances)
 - [Contribuer](#contribuer)
@@ -19,7 +19,7 @@ Akari, également connu sous le nom de Light Up, est un jeu de puzzle logique o�
 - **Authentification Utilisateur** : Inscrivez-vous et connectez-vous pour sauvegarder vos progrès et accéder aux fonctionnalités multijoueur.
 - **Interface Responsive** : Profitez d'une expérience fluide sur les appareils mobiles et de bureau.
 
-## Structure du Projet
+## Structure du Répertoire ./lib
 
 ```
 .
