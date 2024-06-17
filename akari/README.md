@@ -1,6 +1,3 @@
-Voici un fichier README.md pour notre application Akari en français :
-
-```markdown
 # Application de Jeu Akari
 
 Akari, également connu sous le nom de Light Up, est un jeu de puzzle logique où les joueurs placent des ampoules dans une grille pour illuminer toutes les cellules tout en suivant des règles spécifiques. Cette application offre une version numérique du jeu avec diverses fonctionnalités, y compris des modes solo et multijoueur.
@@ -124,4 +121,3 @@ Les contributions sont ce qui rend la communauté open source un endroit incroya
 ## Licence
 
 Distribué sous la licence MIT. Voir `LICENSE` pour plus d'informations.
-```
