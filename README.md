@@ -1,7 +1,3 @@
-
-Voici un fichier README.md pour notre application Akari en français :
-
-```markdown
 # Application de Jeu Akari
 
 Akari, également connu sous le nom de Light Up, est un jeu de puzzle logique où les joueurs placent des ampoules dans une grille pour illuminer toutes les cellules tout en suivant des règles spécifiques. Cette application offre une version numérique du jeu avec diverses fonctionnalités, y compris des modes solo et multijoueur.
@@ -79,13 +75,12 @@ Pour obtenir une copie locale et la faire fonctionner, suivez ces étapes simple
 
 - SDK Flutter
 - SDK Dart
-- Compte Firebase (pour les services d'authentification et de base de données)
 
 ### Installation
 
 1. Clonez le dépôt
    ```sh
-   git clone https://github.com/votre_nom_utilisateur/akari_game.git
+   git clone https://github.com/SalomonMetre/akari.git
    ```
 2. Naviguez vers le répertoire du projet
    ```sh
@@ -111,20 +106,18 @@ flutter run
 - Flutter
 - Dart
 - Firebase
+- Autres packages (à retrouver dans le fichier .yaml)
 
 ## Contribuer
 
-Les contributions sont ce qui rend la communauté open source un endroit incroyable pour apprendre, inspirer et créer. Toute contribution que vous faites est **grandement appréciée**.
+Les contributions sont ce qui rend la communauté open source un endroit incroyable inspirer et créer. Toute contribution que vous faites est **grandement appréciée**.
 
 1. Forkez le projet
-2. Créez votre branche de fonctionnalité (`git checkout -b feature/FonctionnalitéIncroyable`)
-3. Commitez vos modifications (`git commit -m 'Ajoutez une fonctionnalité incroyable'`)
-4. Pushez vers la branche (`git push origin feature/FonctionnalitéIncroyable`)
+2. Créez votre branche de fonctionnalité (`git checkout -b feature/votre-fonctionnalité`)
+3. Commitez vos modifications (`git commit -m 'Ajouter ma fonctionnalité'`)
+4. Pushez vers la branche (`git push origin feature/votre-fonctionalité`)
 5. Ouvrez une Pull Request
 
 ## Licence
 
 Distribué sous la licence MIT. Voir `LICENSE` pour plus d'informations.
-```
-
-N'hésitez pas à personnaliser ce README en fonction de vos besoins et des détails spécifiques de votre projet.
