@@ -83,7 +83,7 @@ Pour obtenir une copie locale et la faire fonctionner, suivez ces étapes simple
 
 1. Clonez le dépôt
    ```sh
-   git clone https://github.com/votre_nom_utilisateur/akari_game.git
+   git clone https://github.com/SalomonMetre/akari.git
    ```
 2. Naviguez vers le répertoire du projet
    ```sh
@@ -116,9 +116,9 @@ flutter run
 Les contributions sont ce qui rend la communauté open source un endroit incroyable inspirer et créer. Toute contribution que vous faites est **grandement appréciée**.
 
 1. Forkez le projet
-2. Créez votre branche de fonctionnalité (`git checkout -b feature/FonctionnalitéIncroyable`)
-3. Commitez vos modifications (`git commit -m 'Ajoutez une fonctionnalité incroyable'`)
-4. Pushez vers la branche (`git push origin feature/FonctionnalitéIncroyable`)
+2. Créez votre branche de fonctionnalité (`git checkout -b feature/votre-fonctionnalité`)
+3. Commitez vos modifications (`git commit -m 'Ajouter ma fonctionnalité'`)
+4. Pushez vers la branche (`git push origin feature/votre-fonctionalité`)
 5. Ouvrez une Pull Request
 
 ## Licence
