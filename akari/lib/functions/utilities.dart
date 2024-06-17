@@ -57,10 +57,12 @@ Future<bool?> showQuitDialog(BuildContext context) async {
         content: const Text('Are you sure you want to quit the game?'),
         actions: <Widget>[
           TextButton(
+            style: const ButtonStyle(foregroundColor: WidgetStatePropertyAll(AppColors.white), backgroundColor: WidgetStatePropertyAll( AppColors.green)),
             onPressed: () => Navigator.of(context).pop(true),
             child: const Text('Yes'),
           ),
           TextButton(
+            style: const ButtonStyle(foregroundColor: WidgetStatePropertyAll(AppColors.white), backgroundColor: WidgetStatePropertyAll( AppColors.red)),
             onPressed: () => Navigator.of(context).pop(false),
             child: const Text('No'),
           ),
@@ -114,32 +116,12 @@ void showLevelEndDialog(BuildContext context) {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextButton(
                   style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(AppColors.blue3),
-                    minimumSize: WidgetStateProperty.all(
-                        const Size(double.infinity, 50)),
-                  ),
-                  onPressed: () {
-                    // TODO: Implement save my score functionality
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(
-                    'Publish Score',
-                    style: GoogleFonts.cabin(fontSize: 16, color: Colors.white),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                child: TextButton(
-                  style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(Colors.green),
                     minimumSize: WidgetStateProperty.all(
                         const Size(double.infinity, 50)),
                   ),
                   onPressed: () {
                     // TODO: Implement next level functionality
-                    Navigator.of(context).pop();
                     goToNamed(context, destination: RouteNames.levelPage);
                   },
                   child: Text(

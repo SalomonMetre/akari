@@ -196,7 +196,7 @@ class _MenuPageState extends State<MenuPage> {
                 GestureDetector(
                   onTap: () {
                     // Handle multiplayer level tap
-                    goToNamed(context, destination: RouteNames.multiPlayerPage, push: true);
+                    // goToNamed(context, destination: RouteNames.multiPlayerPage, push: true);
                   },
                   child: Expanded(
                     child: Container(

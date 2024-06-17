@@ -5,7 +5,7 @@ import 'package:akari/screens/home_page.dart';
 import 'package:akari/screens/intro_page.dart';
 import 'package:akari/screens/level_page.dart';
 import 'package:akari/screens/menu_page.dart';
-import 'package:akari/screens/multiplayer_page.dart';
+// import 'package:akari/screens/multiplayer_page.dart';
 import 'package:akari/screens/signin_page.dart';
 import 'package:akari/screens/signup_page.dart';
 import 'package:akari/screens/start_page.dart';
@@ -45,11 +45,11 @@ class AppRouter {
         name: RouteNames.menuPage,
         builder: (context, state) => const MenuPage(),
       ),
-       GoRoute(
-        path: RoutePaths.multiPlayerPage,
-        name: RouteNames.multiPlayerPage,
-        builder: (context, state) => MultiplayerPage(),
-      ),
+      // GoRoute(
+      //   path: RoutePaths.multiPlayerPage,
+      //   name: RouteNames.multiPlayerPage,
+      //   builder: (context, state) => MultiplayerPage(),
+      // ),
       GoRoute(
         path: '${RoutePaths.levelPage}/:level',
         builder: (context, state) {
