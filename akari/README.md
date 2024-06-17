@@ -1,6 +1,6 @@
 # Application de Jeu Akari
 
-Akari, également connu sous le nom de Light Up, est un jeu de puzzle logique où les joueurs placent des ampoules dans une grille pour illuminer toutes les cellules tout en suivant des règles spécifiques. Cette application offre une version numérique du jeu avec diverses fonctionnalités, y compris des modes solo et multijoueur.
+Akari, également connu sous le nom de Light Up, est un jeu de puzzle logique où les joueurs placent des ampoules dans une grille pour illuminer toutes les cellules tout en suivant des règles spécifiques. Cette application offre une version numérique du jeu avec diverses fonctionnalités, y compris des modes solo et multijoueur (fonctionalité en cours de développement).
 
 ## Table des Matières
 
